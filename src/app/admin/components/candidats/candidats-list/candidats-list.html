@@ -1,0 +1,78 @@
+<div class="container mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-people"></i> Candidats ({{ candidats.length }})</h2>
+        <button class="btn btn-primary" (click)="openModal('add')">
+          <i class="bi bi-plus-lg"></i> Ajouter
+        </button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+           <tbody>
+            <tr *ngFor="let c of candidats">
+              <td>{{ c.id }}</td>
+              <td>{{ c.nom }}</td>
+              <td>{{ c.prenom }}</td>
+              <td>{{ c.email }}</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-outline-primary me-1" (click)="openModal('edit', c)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" (click)="remove(c.id!)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="candidats.length === 0">
+              <td colspan="5" class="text-center text-muted py-4">
+                <i class="bi bi-emoji-frown"></i> Aucun candidat
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+       <!-- Modal (simple) -->
+      <div *ngIf="modalVisible" class="modal d-block" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">
+                {{ modalMode === 'add' ? 'Ajouter un candidat' : 'Modifier un candidat' }}
+              </h5>
+              <button type="button" class="btn-close" (click)="modalVisible = false"></button>
+            </div>
+            <div class="modal-body">
+                 <form #f="ngForm">
+                <div class="mb-3">
+                  <label class="form-label">Nom *</label>
+                  <input type="text" class="form-control" [(ngModel)]="modalModel.nom" name="nom" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Prénom *</label>
+                  <input type="text" class="form-control" [(ngModel)]="modalModel.prenom" name="prenom" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email *</label>
+                  <input type="email" class="form-control" [(ngModel)]="modalModel.email" name="email" required>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="modalVisible = false">Annuler</button>
+              <button type="button" class="btn btn-success" (click)="save()" [disabled]="!f.valid">
+                {{ modalMode === 'add' ? 'Ajouter' : 'Mettre à jour' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="modalVisible" class="modal-backdrop fade show"></div>
+    </div>

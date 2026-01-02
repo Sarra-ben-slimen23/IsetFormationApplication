@@ -1,0 +1,44 @@
+h1 {
+text-align: center;
+text-decoration: underline;
+margin-bottom: 50px;
+padding: 50px;
+}
+#acceuil{
+    background-color: antiquewhite;
+    
+   
+}
+/* === Fond d'écran pour la page d'accueil uniquement === */
+#acceuil {
+  /* Image de fond */
+  background-image: url('/assets/photos/isetr.webp');
+  
+  /* Options essentielles */
+  background-size: cover;       /* Remplit tout l'écran */
+  background-position: center;  /* Centre l'image */
+  background-attachment: fixed; /* Effet parallaxe léger */
+  background-repeat: no-repeat;
+
+  /* Pour assurer la lisibilité du texte */
+  position: relative;
+}
+
+/* Couche de voile semi-transparent (nécessaire !) */
+#acceuil::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7); /* Blanc semi-transparent */
+
+  z-index: 0;
+}
+
+/* Contenu au-dessus du voile */
+#acceuil > * {
+  position: relative;
+  z-index: 1;
+}

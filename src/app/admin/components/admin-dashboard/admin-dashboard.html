@@ -1,0 +1,51 @@
+<div class="container mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-grid-3x3-gap"></i> Tableau de bord</h2>
+        <button class="btn btn-outline-danger btn-sm" (click)="reset()">
+          <i class="bi bi-arrow-clockwise"></i> Réinitialiser
+        </button>
+      </div>
+       <div class="row text-center">
+        <div class="col-md-3 mb-4">
+          <div class="card bg-primary text-white">
+            <div class="card-body">
+              <h3>{{ service.getCandidats().length }}</h3>
+              <p class="mb-0">Candidats</p>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="card bg-success text-white">
+            <div class="card-body">
+              <h3>{{ service.getFormateurs().length }}</h3>
+              <p class="mb-0">Formateurs</p>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="card bg-warning text-dark">
+            <div class="card-body">
+              <h3>{{ service.getFormations().length }}</h3>
+              <p class="mb-0">Formations</p>
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="card bg-info text-white">
+            <div class="card-body">
+              <h3>{{ service.getSessions().length }}</h3>
+              <p class="mb-0">Sessions</p>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> 
+        Toutes les données sont sauvegardées localement dans votre navigateur (localStorage).
+        Elles persistent après fermeture/rechargement.
+      </div>
+    </div>

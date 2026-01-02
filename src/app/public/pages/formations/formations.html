@@ -1,0 +1,59 @@
+<div class="container">
+  <h2>Rechercher une formation</h2>
+
+  <input 
+    type="text" 
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="onSearchChange()"
+    placeholder="Entrez un mot-clé (ex: Angular, Java)..." 
+    class="form-control mb-3"
+  />
+
+  <!-- Affiche le nombre de résultats -->
+  <p *ngIf="searchTerm">
+    {{ filteredFormations.length }} résultat(s) pour "{{ searchTerm }}"
+  </p>
+
+  <div *ngIf="filteredFormations.length === 0 && searchTerm" class="alert alert-warning">
+    Aucune formation trouvée pour "{{ searchTerm }}".
+  </div>
+
+  <div class="row">
+    <div class="col-md-4" *ngFor="let formation of filteredFormations; trackBy: trackById">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{ formation.titre }}</h5>
+          <p class="card-text">{{ formation.description | slice:0:100 }}...</p>
+          
+          
+          <!-- Badges d'information -->
+          <div class="mb-2">
+            <span class="badge bg-primary me-1">{{ formation.niveau }}</span>
+            <span class="badge bg-secondary">{{ formation.chargeHoraire }}h</span>
+          </div>
+          
+          <!-- Tags -->
+          <div *ngIf="formation.tags && formation.tags.length > 0" class="mb-2">
+            <span *ngFor="let tag of formation.tags" class="badge bg-light text-dark me-1 mb-1">
+              {{ tag }}
+            </span>
+          </div>
+          
+          
+          <a 
+            [routerLink]="['/public/formations', formation.id]"
+            class="btn btn-sm btn-outline-primary"
+          >
+            Voir les détails
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Affiche toutes les formations si pas de recherche -->
+  <div *ngIf="!searchTerm && formations.length > 0">
+    <h3>Toutes les formations ({{ formations.length }})</h3>
+    
+  </div>
+</div>

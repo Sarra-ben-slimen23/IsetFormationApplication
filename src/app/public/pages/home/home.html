@@ -1,0 +1,85 @@
+<div class="container py-5">
+  <!-- Titre principal -->
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-primary">
+      Programme de formation d’ISET Rades
+    </h1>
+   <p class="lead textmb-4">
+  Chez l’<strong>ISET Rades</strong>, nous concevons des <strong>formations professionnelles de haut niveau</strong>, 
+  destinées à <strong>renforcer les compétences techniques</strong> des étudiants en cycle supérieur 
+  et des professionnels en activité.
+</p>
+
+<p class="textmb-4">
+  Nos programmes sont construits autour de <strong>domaines stratégiques</strong> : développement logiciel, 
+  programmation orientée objet, analyse de données et intelligence artificielle — des filières en forte croissance 
+  qui ouvrent aux <strong>métiers de demain</strong> : développeur full-stack, ingénieur data, architecte logiciel, 
+  ou expert en cybersécurité.
+</p>
+
+<p class="text mb-4">
+  Chaque formation est <strong>encadrée par des formateurs experts</strong> — enseignants-chercheurs, 
+  ingénieurs en activité et consultants sectoriels — qui allient <strong>rigueur académique</strong> 
+  et <strong>retour d’expérience terrain</strong>.
+</p>
+
+<p class="text mb-0">
+  L’objectif ? Vous doter non seulement de <strong>savoir-faire techniques solides</strong> (Angular, Java, Python, BD, etc.), 
+  mais aussi d’une <strong>posture professionnelle</strong> : autonomie, résolution de problèmes, travail en équipe 
+  et capacité d’adaptation dans un environnement technologique en constante évolution.
+</p>
+  </div>
+
+  <!-- Section catégories -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold" style="color: #0d47a1;">
+      Découvrez l'ensemble des catégories de notre formations
+    </h2>
+    
+  </div>
+
+  <!-- Grille des catégories -->
+  <div class="row g-4 justify-content-center">
+    @for (cat of categories; track cat.id) {
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body d-flex flex-column align-items-center text-center p-4">
+            <!-- Icône dynamique -->
+            <div class="mb-3">
+              @switch (cat.id) {
+                @case (1) {
+                  <i class="bi bi-code-slash display-4 text-success"></i>
+                }
+                @case (2) {
+                  <i class="bi bi-diagram-3 display-4 text-info"></i>
+                }
+                @case (3) {
+                  <i class="bi bi-bar-chart-line display-4 text-warning"></i>
+                }
+                @default {
+                  <i class="bi bi-book display-4 text-secondary"></i>
+                }
+              }
+            </div>
+
+            <!-- Nom de la catégorie -->
+            <h3 class="card-title fw-bold mb-3">{{ cat.nom }}</h3>
+
+            
+            
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Pied de page léger -->
+  <div class="text-center mt-5 pt-4 border-top">
+    <p class="text-muted small">
+      🎓 Institut Supérieur des Études Technologiques de Rades — Former les talents de demain
+    </p>
+    <p class="text-muted small">
+      Rue de Jérusalem-BP 172,2098 Radès Médina 📞Fax: 71 442 322 ___📞Tél: (+216)71 460 100
+    </p>
+  </div>
+</div>

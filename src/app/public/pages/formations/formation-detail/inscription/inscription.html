@@ -1,0 +1,78 @@
+<!-- src/app/public/pages/formations/formation-detail/inscription/inscription.component.html -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+          <h3><i class="bi bi-person-plus"></i> Inscription à la session</h3>
+        </div>
+        <div class="card-body">
+          <p class="text-muted text-center">
+            Session #{{ sessionID }} • Max 15 candidats
+          </p>
+
+          <!-- Erreur -->
+          <div *ngIf="erreur" class="alert alert-danger">
+            {{ erreur }}
+          </div>
+
+          <!-- Formulaire -->
+          <form (ngSubmit)="onSumbit()" #f="ngForm">
+            <div class="mb-3">
+              <label for="nom" class="form-label">Nom *</label>
+              <input 
+                type="text" 
+                id="nom" 
+                class="form-control"
+                [(ngModel)]="candidat.nom"
+                name="nom"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="prenom" class="form-label">Prénom *</label>
+              <input 
+                type="text" 
+                id="prenom" 
+                class="form-control"
+                [(ngModel)]="candidat.prenom"
+                name="prenom"
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email *</label>
+              <input 
+                type="email" 
+                id="email" 
+                class="form-control"
+                [(ngModel)]="candidat.email"
+                name="email"
+                required
+              >
+            </div>
+
+            <div class="d-grid gap-2">
+              <button 
+                type="submit" 
+                class="btn btn-success btn-lg"
+                [disabled]="f.invalid"
+              >
+                <i class="bi bi-check2-circle"></i> Confirmer l'inscription
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-outline-secondary"
+                (click)="router.navigate(['/public/formations'])"
+              >
+                ← Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
