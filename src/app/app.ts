@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { PublicRoutingModule } from './public/public-routing-module';
-
+import {  ViewChild, ElementRef } from '@angular/core';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,PublicRoutingModule],
@@ -11,4 +11,6 @@ import { PublicRoutingModule } from './public/public-routing-module';
 export class App {
   constructor(public router:Router){}
   protected readonly title = signal('Iset_FormationApplication');
+  
+
 }

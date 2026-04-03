@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Formation } from '../../interfaces/formation';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../../admin/data-service';
+import { ApiService } from '../../../core/services/api-service';
+import {  ViewChild, ElementRef } from '@angular/core';
+import { BehaviorSubject, combineLatest, map, startWith } from 'rxjs';
 
 
 @Component({
@@ -13,18 +16,37 @@ import { DataService } from '../../../admin/data-service';
 
 })
 export class Formations implements OnInit {
+ /* @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
   searchTerm = '';
-  formations: Formation[] = [];
+  formations: Formation[] =[];
+  //formations$= new BehaviorSubject<Formation[]>([]);
   filteredFormations: Formation[] = [];
   
   
 
-  constructor(private service:DataService,private router:Router,private route:ActivatedRoute) {}
+  constructor(private api:ApiService,private router:Router,private route:ActivatedRoute,
+   
+  ) {}
 
   ngOnInit(): void {
     // Récupérez les formations depuis le service
-    this.formations = this.service.getFormations();
-    this.filteredFormations = [...this.formations];
+     this.api.getFormations().subscribe({
+      next: (data) => {
+        
+        this.formations = data;
+        this.filteredFormations = [...this.formations];
+      },
+      error: (err) => {
+        console.error('Erreur API:', err);
+        alert('⚠️ Impossible de charger les formations. Backend démarré ?');
+      }
+    });
+//focus sur le champ de recherche au chargement de la page
+    
+    setTimeout(() => {
+    this.searchInput.nativeElement.focus();
+  }, 100); 
+    
   }
 
   filterFormations(): Formation[] {
@@ -61,6 +83,73 @@ export class Formations implements OnInit {
   }
   trackById(index: number, formation: Formation): number {
   return formation.id;
+}*/
+
+
+
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+
+  private allFormations$ = new BehaviorSubject<Formation[]>([]);
+  private searchTerm$ = new BehaviorSubject<string>('');
+
+  // Flux réactif combiné
+  filteredFormations$ = combineLatest([
+    this.allFormations$,
+    this.searchTerm$
+  ]).pipe(
+    map(([formations, term]) => {
+      const searchLower = term.toLowerCase().trim();
+      if (!searchLower) return formations;
+
+      return formations.filter(f => {
+        const matchesTitle = f.titre.toLowerCase().includes(searchLower);
+        const matchesDesc = f.description.toLowerCase().includes(searchLower);
+        const matchesTags = f.tags
+          .split(',')
+          .some(tag => tag.trim().toLowerCase().includes(searchLower));
+
+        return matchesTitle || matchesDesc || matchesTags;
+      });
+    })
+  );
+
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    //  Charge les formations depuis le backend
+    this.api.getFormations().subscribe({
+      next: (formations) => {
+        this.allFormations$.next(formations);
+      },
+      error: (err) => {
+        console.error('Erreur API:', err);
+        alert('⚠️ Impossible de charger les formations. Backend démarré ?');
+      }
+    });
+
+    //  Focus sur le champ de recherche
+    setTimeout(() => {
+      this.searchInput?.nativeElement.focus();
+    }, 100);
+  }
+
+  // Mise à jour du terme de recherche
+  onSearchChange(term: string): void {
+    this.searchTerm$.next(term);
+  }
+
+  trackById(index: number, formation: Formation): number {
+    return formation.id!;
+  }
 }
 
-}
+
+  
+
+
+
+

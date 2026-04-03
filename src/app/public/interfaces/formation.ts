@@ -5,11 +5,11 @@ export interface Formation {
   titre: string;
   description: string;
   chargeHoraire: number;
-  programmePdf: string; // URL du PDF
+  programmePdf?: string; // URL du PDF
   
   niveau: string;
-  tags: string[];
-  categories: number[];
+  tags: string;
+  categories?: string;
   
 }
 

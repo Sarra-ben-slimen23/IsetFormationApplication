@@ -10,4 +10,15 @@ export interface Candidat {
   photo: string;
   motDePasse: string; // 
 */
+
+Session?: {
+    id: number;
+    description?: string;
+    dateDebut?:string;
+    dateFin?:string
+    formation?: {
+      id: number;
+      titre: string;
+    };
+  };
   }

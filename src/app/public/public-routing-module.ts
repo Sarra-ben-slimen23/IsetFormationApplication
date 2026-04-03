@@ -6,6 +6,7 @@ import { Inscription } from './pages/formations/formation-detail/inscription/ins
 import { Home } from './pages/home/home';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MesInscriptionsComponent } from './pages/mes-inscriptions/mes-inscriptions';
 
 
 const routes: Routes = [
@@ -22,7 +23,11 @@ const routes: Routes = [
   { 
     path: 'formations/:id/inscription/:sessionID', 
     loadComponent: () => import('./pages/formations/formation-detail/inscription/inscription').then(m => m.Inscription)
-  }
+  },
+  {
+  path: 'mes-inscriptions',
+  component: MesInscriptionsComponent
+}
 ];
 
 @NgModule({

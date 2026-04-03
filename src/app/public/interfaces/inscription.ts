@@ -6,4 +6,6 @@ export interface Inscription {
   candidat: Candidat;
   session: Session;
   dateInscription: Date;
+  candidatId: number;
+  sessionId: number;
 }

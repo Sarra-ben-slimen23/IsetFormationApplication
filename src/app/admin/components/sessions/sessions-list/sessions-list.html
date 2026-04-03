@@ -1,35 +1,35 @@
 <div class="container mt-4">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-calendar-event"></i> Sessions ({{ sessions.length }})</h2>
-        <button class="btn btn-primary" (click)="openModal('add')">
+        <h2><i class="bi bi-calendar-event"></i> Sessions ({{( sessions$|async)?.length }})</h2>
+        <button class="btn btn-info" (click)="openModal('add')">
           <i class="bi bi-plus-lg"></i> Ajouter
         </button>
       </div>
        <div class="row">
-        <div class="col-md-6 mb-4" *ngFor="let s of sessions">
+        <div class="col-md-6 mb-4" *ngFor="let s of sessions$|async">
           <div class="card h-100">
             <div class="card-header bg-info text-white">
               <h5 class="mb-0">Session #{{ s.id }}</h5>
             </div>
             <div class="card-body">
-              <p><strong>Formation :</strong> {{ getFormationTitre(s.formationId) }}</p>
-              <p><strong>Du</strong> {{ s.dateDebut | date:'dd/MM/yyyy' }} 
-                  <strong>au</strong> {{ s.dateFin | date:'dd/MM/yyyy' }}</p>
+              <p><strong>Formation :</strong> {{ getFormationTitre(s.formationId)}}</p>
+              <p><strong>Du</strong> {{ s.dateDebut }} 
+                  <strong>au</strong> {{ s.dateFin }}</p>
               <p><strong>Formateurs :</strong> {{ getFormateursNoms(s.formateursIds) }}</p>
-              <p><strong>Candidats :</strong> {{ s.candidats.length }} / 15</p>
+              <p><strong>Candidats :</strong> {{ s.inscriptions.length }} / 15</p>
               <p class="text-muted">{{ s.description | slice:0:80 }}...</p>
             </div>
              <div class="card-footer text-end">
-              <button class="btn btn-sm btn-outline-primary me-1" (click)="openModal('edit', s)">
-                <i class="bi bi-pencil"></i>
+              <button class="btn btn-outline-info" (click)="openModal('edit', s)">
+                <i class="bi bi-pencil"></i>modifier
               </button>
-              <button class="btn btn-sm btn-outline-danger" (click)="remove(s.id!)">
-                <i class="bi bi-trash"></i>
+              <button class="btn btn-outline-danger" (click)="remove(s.id!)">
+                <i class="bi bi-trash"></i>supprimer
               </button>
             </div>
           </div>
         </div>
-         <div *ngIf="sessions.length === 0" class="col-12 text-center text-muted py-5">
+         <div *ngIf="(sessions$|async)?.length === 0" class="col-12 text-center text-muted py-5">
           <i class="bi bi-calendar-x" style="font-size: 3rem;"></i>
           <p class="mt-3">Aucune session programmée</p>
         </div>
@@ -49,7 +49,7 @@
                 <div class="mb-3">
                   <label class="form-label">Formation *</label>
                   <select class="form-select" [(ngModel)]="modalModel.formationId" name="formationId" required>
-                    <option *ngFor="let formation of formations" [value]="formation.id">
+                    <option *ngFor="let formation of formations$|async" [value]="formation.id">
                       {{ formation.titre }}
                     </option>
                   </select>
@@ -67,7 +67,7 @@
                  <div class="mb-3">
                   <label class="form-label">Formateurs *</label>
                   <select multiple class="form-select" [(ngModel)]="modalModel.formateursIds" name="formateursIds" required>
-                    <option *ngFor="let formateur of formateurs" [value]="formateur.id">
+                    <option *ngFor="let formateur of formateurs$|async" [value]="formateur.id">
                       {{ formateur.prenom }} {{ formateur.nom }}
                     </option>
                   </select>
@@ -80,7 +80,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" (click)="modalVisible = false">Annuler</button>
-              <button type="button" class="btn btn-success" (click)="save()" [disabled]="!f.valid">
+              <button type="button" class="btn btn-success" (click)="save()" [disabled]="!f.valid|| !validateDates()">
                 {{ modalMode === 'add' ? 'Ajouter' : 'Mettre à jour' }}
               </button>
             </div>

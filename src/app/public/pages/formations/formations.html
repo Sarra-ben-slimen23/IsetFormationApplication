@@ -2,58 +2,38 @@
   <h2>Rechercher une formation</h2>
 
   <input 
+    #searchInput
     type="text" 
-    [(ngModel)]="searchTerm"
-    (ngModelChange)="onSearchChange()"
+    (input)="onSearchChange($event.target.value)"
     placeholder="Entrez un mot-clé (ex: Angular, Java)..." 
     class="form-control mb-3"
   />
 
-  <!-- Affiche le nombre de résultats -->
-  <p *ngIf="searchTerm">
-    {{ filteredFormations.length }} résultat(s) pour "{{ searchTerm }}"
-  </p>
-
-  <div *ngIf="filteredFormations.length === 0 && searchTerm" class="alert alert-warning">
-    Aucune formation trouvée pour "{{ searchTerm }}".
-  </div>
-
   <div class="row">
-    <div class="col-md-4" *ngFor="let formation of filteredFormations; trackBy: trackById">
-      <div class="card mb-3">
+    <div class="col-md-6 mb-4" *ngFor="let f of filteredFormations$ | async; trackBy: trackById">
+      <div class="card h-100">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">{{ f.titre }}</h5>
+        </div>
         <div class="card-body">
-          <h5 class="card-title">{{ formation.titre }}</h5>
-          <p class="card-text">{{ formation.description | slice:0:100 }}...</p>
-          
-          
-          <!-- Badges d'information -->
-          <div class="mb-2">
-            <span class="badge bg-primary me-1">{{ formation.niveau }}</span>
-            <span class="badge bg-secondary">{{ formation.chargeHoraire }}h</span>
-          </div>
-          
-          <!-- Tags -->
-          <div *ngIf="formation.tags && formation.tags.length > 0" class="mb-2">
-            <span *ngFor="let tag of formation.tags" class="badge bg-light text-dark me-1 mb-1">
-              {{ tag }}
-            </span>
-          </div>
-          
-          
-          <a 
-            [routerLink]="['/public/formations', formation.id]"
-            class="btn btn-sm btn-outline-primary"
-          >
-            Voir les détails
-          </a>
+          <p><strong>Niveau :</strong> {{ f.niveau }}</p>
+          <p><strong>Durée :</strong> {{ f.chargeHoraire }}h</p>
+          <p><strong>Tags :</strong> 
+            <span class="badge bg-secondary me-1" *ngFor="let t of f.tags.split(',')">{{ t.trim() }}</span>
+          </p>
+          <p class="text-muted">{{ f.description | slice:0:100 }}...</p>
+        </div>
+        <div class="card-footer text-end">
+          <button class="btn btn-sm btn-primary" [routerLink]="['/public/formations', f.id]">
+            Voir détail
+          </button>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Affiche toutes les formations si pas de recherche -->
-  <div *ngIf="!searchTerm && formations.length > 0">
-    <h3>Toutes les formations ({{ formations.length }})</h3>
-    
+    <div *ngIf="(filteredFormations$ | async)?.length === 0" class="alert alert-warning text-center">
+      
+      <p >Aucune formation trouvée!!!</p>
+    </div>
   </div>
 </div>

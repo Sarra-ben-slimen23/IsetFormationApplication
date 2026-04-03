@@ -4,6 +4,7 @@ import { Candidat } from '../public/interfaces/candidat';
 import { Formation } from '../public/interfaces/formation';
 import { Session } from '../public/interfaces/session';
 import { Categorie } from '../public/interfaces/categorie';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -11,20 +12,25 @@ import { Categorie } from '../public/interfaces/categorie';
   providedIn: 'root'
 })
 export class DataService {
-  private readonly CANDIDATS_KEY = 'admin_candidats';
+ /* private readonly CANDIDATS_KEY = 'admin_candidats';
   private readonly FORMATEURS_KEY = 'admin_formateurs';
   private readonly FORMATIONS_KEY = 'admin_formations';
-  private readonly SESSIONS_KEY = 'admin_sessions';
+  private readonly SESSIONS_KEY = 'admin_sessions'; */
+
+
+constructor(
+  private http : HttpClient
+){}
 
   // récupère les donnés de local storage ou les initialise
-  private loadFromStorage<T>(key: string, initialData: T[]): T[] {
+  /*private loadFromStorage<T>(key: string, initialData: T[]): T[] {
     const data = localStorage.getItem(key);
     return data ? this.parseWithDates(data) : initialData;
   }
 //stockage les chaines json dans le local storage
   private saveToStorage(key: string, data: any): void {
     localStorage.setItem(key, JSON.stringify(data));
-  }
+  }*/
 
   //  Gère la conversion string → number pour les IDs après JSON.parse
   private parseWithDates(json: string): any {
@@ -57,14 +63,14 @@ export class DataService {
     return [
       {
         id: 1,
-        nom: 'Doe',
-        prenom: 'John',
-        email: 'john1@gmail.com',
+        nom: 'jomaa',
+        prenom: 'Jamil',
+        email: 'jamiljomaa@gmail.com',
         telephone: '27112445',
         cin: '12345678',
-        photo: 'assets/photos/john.jpg',
-        cv: 'assets/cv/john.pdf',
-        specialites: ['Angular', 'Node.js']
+        photo: 'assets/photos/jamil.jpg',
+        cv: 'assets/cv/jamil.pdf',
+        specialites: 'Angular,Node.js'
       },
       {
         id: 2,
@@ -75,7 +81,7 @@ export class DataService {
         cin: '12345679',
         photo: 'assets/photos/sarra.jpg',
         cv: 'assets/cv/sarra.pdf',
-        specialites: ['Java', 'POO']
+        specialites: 'Java,POO'
       },
       {
         id: 3,
@@ -86,7 +92,7 @@ export class DataService {
         cin: '14718820',
         photo: 'assets/photos/souha.jpg',
         cv: 'assets/cv/souha.pdf',
-        specialites: ['Python', 'POO']
+        specialites: 'Python,POO'
       }
     ];
   }
@@ -100,7 +106,22 @@ export class DataService {
   }
 
   private getInitialFormations(): Formation[] {
-    return [
+
+    let  lstFormations : Formation[] = [];
+     this.http.get('http://localhost:3000/api/formations')
+    .subscribe({
+      next: (data: any) => {
+        lstFormations = data;
+        console.log('aaaaaaaaaaaaa' + lstFormations);
+        
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des formations :', error);
+      }
+    });
+      
+    return lstFormations;
+     return [
       {
         id: 1,
         titre: 'Angular avancé',
@@ -108,8 +129,8 @@ export class DataService {
         chargeHoraire: 40,
         programmePdf: 'assets/programmes/angular.pdf',
         niveau: 'avance',
-        tags: ['angular', 'typeScript', 'rxJS'],
-        categories: [1]
+        tags: 'angular,typeScript,rxJS',
+        categories: '1'
       },
       {
         id: 2,
@@ -118,8 +139,8 @@ export class DataService {
         chargeHoraire: 35,
         programmePdf: 'assets/programmes/java.pdf',
         niveau: 'intermediaire',
-        tags: ['java', 'poo', 'jvm'],
-        categories: [1]
+        tags: 'java,poo,jvm',
+        categories:'1'
       },
       {
         id: 3,
@@ -128,8 +149,8 @@ export class DataService {
         chargeHoraire: 35,
         programmePdf: 'assets/programmes/python.pdf',
         niveau: 'debutant',
-        tags: ['python', 'developpement', 'thonny'],
-        categories: [1, 2]
+        tags: 'python,developpement,thonny',
+        categories: '1,2'
       },
       {
         id: 4,
@@ -138,18 +159,18 @@ export class DataService {
         chargeHoraire: 30,
         programmePdf: 'assets/programmes/dataScience.pdf',
         niveau: 'debutant',
-        tags: ['data', 'science', 'information'],
-        categories: [3]
+        tags: 'data,science,information',
+        categories: '3'
       }
-    ];
+    ]; 
   }
 
-  private getInitialSessions(): Session[] {
+  /*private getInitialSessions(): Session[] {
     return [
       {
         id: 1,
         formationId: 1,
-        formateursIds: [3, 1],
+        formateursIds: [3,1],
         candidats: [],
         dateDebut: '2025-12-01',
         dateFin: '2026-01-07',
@@ -183,9 +204,9 @@ export class DataService {
         description: 'Vos premiers pas en Data Science. Une formation 100% débutante pour découvrir ce métier passionnant, apprendre à parler le langage des données et réaliser vos premières analyses. Aucun prérequis en programmation nécessaire'
       }
     ];
-  }
+  }*/
 
-  private getInitialCandidats(): Candidat[] {
+  /*private getInitialCandidats(): Candidat[] {
     return [];
   }
 
@@ -195,28 +216,45 @@ export class DataService {
   }
   saveFormateurs(formateurs: Formateur[]): void {
     this.saveToStorage(this.FORMATEURS_KEY, formateurs);
-  }
-  addFormateur(formateur: Formateur): void {
+  }*/
+  /*addFormateur(formateur: Formateur): void {
     const list = this.getFormateurs();
     const newId = list.length ? Math.max(...list.map(f => f.id)) + 1 : 1;
     this.saveFormateurs([...list, { ...formateur, id: newId }]);
-  }
+  }*/
 
   // --- CRUD Formations ---
-  getFormations(): Formation[] {
+  /*getFormations(): Formation[] {
     return this.loadFromStorage(this.FORMATIONS_KEY, this.getInitialFormations());
-  }
-  saveFormations(formations: Formation[]): void {
+  }*/
+  private getFormations(): Formation[] {
+
+    let  lstFormations : Formation[] = [];
+     this.http.get('http://localhost:3000/api/formations')
+    .subscribe({
+      next: (data: any) => {
+        lstFormations = data;
+        console.log('aaaaaaaaaaaaa' + lstFormations);
+        
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des formations :', error);
+      }
+    });
+      
+    return lstFormations;}
+  
+  /* saveFormations(formations: Formation[]): void {
     this.saveToStorage(this.FORMATIONS_KEY, formations);
   }
   addFormation(formation: Formation): void {
     const list = this.getFormations();
     const newId = list.length ? Math.max(...list.map(f => f.id)) + 1 : 1;
     this.saveFormations([...list, { ...formation, id: newId }]);
-  }
+  } */
 
   // --- CRUD Sessions ---
-  getSessions(): Session[] {
+  /*getSessions(): Session[] {
     return this.loadFromStorage(this.SESSIONS_KEY, this.getInitialSessions());
   }
   saveSessions(sessions: Session[]): void {
@@ -226,10 +264,10 @@ export class DataService {
     const list = this.getSessions();
     const newId = list.length ? Math.max(...list.map(s => s.id)) + 1 : 1;
     this.saveSessions([...list, { ...session, id: newId }]);
-  }
+  }*/
 
   // --- CRUD Candidats ---
-  getCandidats(): Candidat[] {
+ /*getCandidats(): Candidat[] {
     return this.loadFromStorage(this.CANDIDATS_KEY, this.getInitialCandidats());
   }
   saveCandidats(candidats: Candidat[]): void {
@@ -253,10 +291,10 @@ updateCandidat(updated: Candidat): void {
 deleteCandidat(id: number): void {
   const list = this.getCandidats().filter(c => c.id !== id);
   this.saveCandidats(list);
-}
+}*/
 
   // --- Méthodes publiques (ex: pour l'espace client) ---
-  getFormationById(id: number): Formation | undefined {
+  /*getFormationById(id: number): Formation | undefined {
     return this.getFormations().find(f => f.id === id);
   }
 
@@ -270,7 +308,7 @@ deleteCandidat(id: number): void {
 
   getFormateursByIds(ids: number[]): Formateur[] {
     return ids.map(id => this.getFormateurById(id)!).filter(f => f != null);
-  }
+  }*/
 
   getCategories(): Categorie[] {
     return this.getInitialCategories();
@@ -282,17 +320,29 @@ deleteCandidat(id: number): void {
 
   getCategorieList(): Categorie[] {
     const categoryIds = new Set<number>();
-    this.getFormations().forEach(f => f.categories.forEach(id => categoryIds.add(id)));
+    
+    this.getFormations().forEach(f => {
+    if (f.categories) {
+      //  Convertit "1,2,3" en [1, 2, 3]
+      const ids = f.categories
+        .split(',')
+        .map(id => id.trim())
+        .filter(id => id !== '')
+        .map(Number);
+      
+      ids.forEach(id => categoryIds.add(id));
+    }
+  });
     return this.getCategories().filter(cat => categoryIds.has(cat.id));
   }
 
-  getFormationIdBySessionId(sessionId: number): number | null {
+  /*getFormationIdBySessionId(sessionId: number): number | null {
     const session = this.getSessions().find(s => s.id === sessionId);
     return session ? session.formationId : null;
   }
 
   // --- Inscription (client → admin) ---
-  inscrireCandidat(sessionId: number, candidat: Candidat): { success: boolean; message: string } {
+ /* inscrireCandidat(sessionId: number, candidat: Candidat): { success: boolean; message: string } {
   const sessions = this.getSessions();
   const session = sessions.find(s => s.id === sessionId);
   
@@ -330,14 +380,16 @@ deleteCandidat(id: number): void {
   this.saveSessions(sessions);
 
   return { success: true, message: 'Inscription réussie.' };
-}
+}*/
 
   // --- Réinitialisation ---
-  resetAll(): void {
+ /* resetAll(): void {
     localStorage.removeItem(this.CANDIDATS_KEY);
     localStorage.removeItem(this.FORMATEURS_KEY);
     localStorage.removeItem(this.FORMATIONS_KEY);
     localStorage.removeItem(this.SESSIONS_KEY);
     location.reload();
-  }
+  }*/
 }
+ 
+

@@ -5,7 +5,7 @@ export interface Formateur {
   email: string;
   telephone: string;
   cin: string;
-  photo: string; //  
-  cv: string; // 
-  specialites: string[];
+  photo?: string; // optionnel 
+  cv?: string; // optionnel
+  specialites: string;
 }

@@ -1,7 +1,7 @@
 <div class="container mt-4">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-mortarboard"></i> Formateurs ({{ formateurs.length }})</h2>
-        <button class="btn btn-primary" (click)="openModal('add')">
+        <h2><i class="bi bi-mortarboard"></i> Formateurs ({{ (formateur$|async)?.length||0 }})</h2>
+        <button class="btn btn-secondary" (click)="openModal('add')">
           <i class="bi bi-plus-lg"></i> Ajouter
         </button>
       </div>
@@ -12,32 +12,53 @@
               <th>ID</th>
               <th>Nom</th>
               <th>Prénom</th>
+              <th>email</th>
               <th>téléphone</th>
               <th>cin</th>
               <th>spécialité(s)</th>
+              <th>photoUrl</th>
+              <th>photo</th>
               <th>cv</th>
               <th class="text-end">Actions</th>
             </tr>
           </thead>
            <tbody>
-            <tr *ngFor="let f of formateurs">
+            <tr *ngFor="let f of formateur$|async">
               <td>{{ f.id }}</td>
               <td>{{ f.nom }}</td>
               <td>{{ f.prenom }}</td>
+              <td>{{ f.email }}</td>
+              
               <td>{{f.telephone}}</td>
               <td>{{f.cin}}</td>
               <td>{{f.specialites}}</td>
-              <td>{{f.cv}}</td>
+              <td>{{f.photo}}</td>
+              <td>
+  <img 
+    [src]="getPhotoUrl(f.photo)" 
+    alt="Photo de {{ f.prenom }} {{ f.nom }}"
+    class="rounded-circle"
+    style="width: 40px; height: 40px; object-fit: cover;"
+  />
+</td>
+              <!--<td>{{f.cv}}</td>-->
+              <td>
+            <a *ngIf="f.cv" [href]="f.cv" target="_blank" class="text-success">{{ f.cv }}</a>
+            <span *ngIf="!f.cv" class="text-muted">—</span>
+          </td>
+
               <td class="text-end">
-                <button class="btn btn-sm btn-outline-primary me-1" (click)="openModal('edit', f)">
+                <button class="btn btn-outline-success" (click)="openModal('edit', f)">
                   <i class="bi bi-pencil"></i>
+                  Modifier
                 </button>
-                <button class="btn btn-sm btn-outline-danger" (click)="remove(f.id!)">
+                <button class="btn btn-outline-danger" (click)="remove(f.id!)">
                   <i class="bi bi-trash"></i>
+                  Supprimer
                 </button>
               </td>
             </tr>
-             <tr *ngIf="formateurs.length === 0">
+             <tr *ngIf="(formateur$|async)?.length === 0">
               <td colspan="4" class="text-center text-muted py-4">
                 <i class="bi bi-emoji-frown"></i> Aucun formateur
               </td>
@@ -66,6 +87,10 @@
                   <input type="text" class="form-control" [(ngModel)]="modalModel.prenom" name="prenom" required>
                 </div>
                 <div class="mb-3">
+                  <label class="form-label">email*</label>
+                  <input type="text" class="form-control" [(ngModel)]="modalModel.email" name="email" required>
+                </div>
+                <div class="mb-3">
                   <label class="form-label">téléphone *</label>
                   <input type="text" class="form-control" [(ngModel)]="modalModel.telephone" name="telephone" required>
                 </div>
@@ -77,8 +102,15 @@
                   <label class="form-label">spécialité(s) *</label>
                   <input type="text" class="form-control" [(ngModel)]="modalModel.specialites" name="specialites" required>
                 </div>
+                 <div class="mb-3">
+                  <label class="form-label">photo</label>
+                  <input type="text" class="form-control" [(ngModel)]="modalModel.photo" name="photo"
+                   placeholder="ex: assets/photos/foulen ben foulen.jpg" >
+                  
+                </div>
+                 
                 <div class="mb-3">
-                  <label class="form-label">Chemin PDF (relatif)*</label>
+                  <label class="form-label">Chemin PDF (relatif)</label>
                   <input type="text" class="form-control" [(ngModel)]="modalModel.cv" name="cv" 
                     placeholder="ex: assets/cv/foulen ben foulen.pdf">
                 </div>

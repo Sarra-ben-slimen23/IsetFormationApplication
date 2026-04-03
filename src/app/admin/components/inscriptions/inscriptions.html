@@ -1,0 +1,28 @@
+@if (inscriptions.length === 0) {
+  <p>Aucune inscription trouvee.</p>
+} @else {
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Candidat</th>
+        <th>Email</th>
+        <th>Formation</th>
+        <th>Session</th>
+        <th>Du</th>
+        <th>Au</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (insc of inscriptions; track insc.id) {
+        <tr>
+          <td>{{ insc.candidat }}</td>
+          <td>{{ insc.email }}</td>
+          <td>{{ insc.formation }}</td>
+          <td>{{ insc.session }}</td>
+          <td>{{ insc.dateDebut }}</td>
+          <td>{{ insc.dateFin }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

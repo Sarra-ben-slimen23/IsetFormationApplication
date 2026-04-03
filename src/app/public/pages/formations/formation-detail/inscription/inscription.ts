@@ -3,6 +3,9 @@ import { Candidat } from '../../../../interfaces/candidat';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DataService } from '../../../../../admin/data-service';
+import { ApiService } from '../../../../../core/services/api-service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -10,6 +13,7 @@ import { DataService } from '../../../../../admin/data-service';
   standalone:false,
   templateUrl: './inscription.html',
   styleUrl: './inscription.css',
+  //imports:[CommonModule,FormsModule]
 })
 export class Inscription implements OnInit {
  candidat:Candidat={
@@ -22,7 +26,7 @@ sessionID!:number;
  erreur: string | null = null;
 constructor(private route:ActivatedRoute,
  protected router:Router,
-  public service:DataService){}
+  public service:ApiService){}
 ngOnInit(): void {
   this.sessionID=Number(this.route.snapshot.paramMap.get('sessionID'));
    console.log('Session ID:', this.sessionID);
@@ -33,16 +37,19 @@ onSumbit() {
     return;
   }
 
-  const result = this.service.inscrireCandidat(this.sessionID, this.candidat);
-  
-  if (result.success) {
-    alert('✅ ' + result.message);
-    const formationId = this.service.getFormationIdBySessionId(this.sessionID);
-    if (formationId) {
-      this.router.navigate(['/public/formation', formationId]);
-    }
-  } else {
-    this.erreur = '❌ ' + result.message;
-  }
+ 
+//appel au backend via Apiservice
+ this.service.inscrire(this.sessionID, this.candidat).subscribe({
+next: (reponse)=>{
+  alert('✅ Inscription réussie !');
+  this.router.navigate(['/public/formation']);
+},
+error:(err)=>{
+  console.error('Erreur inscription:', err);
+        this.erreur = '❌ ' + (err.error?.error || 'Erreur lors de l’inscription');
+
+}
+})
+
 }
 }

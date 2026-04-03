@@ -1,9 +1,9 @@
 <div class="container mt-4">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="bi bi-people"></i> Candidats ({{ candidats.length }})</h2>
-        <button class="btn btn-primary" (click)="openModal('add')">
+        <h2><i class="bi bi-people"></i> Candidats ({{ (candidat$|async)?.length||0 }})</h2>
+       <!-- <button class="btn btn-primary" (click)="openModal('add')">
           <i class="bi bi-plus-lg"></i> Ajouter
-        </button>
+        </button>-->
       </div>
       <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">
@@ -13,25 +13,36 @@
               <th>Nom</th>
               <th>Prénom</th>
               <th>Email</th>
-              <th class="text-end">Actions</th>
+             <!--  <th>IDsession</th>
+              <th>date début</th>
+              <th>date fin</th>
+              <th>formation</th> -->
+              <!--<th class="text-end">Actions</th>-->
             </tr>
           </thead>
            <tbody>
-            <tr *ngFor="let c of candidats">
+            <tr *ngFor="let c of candidat$|async">
               <td>{{ c.id }}</td>
               <td>{{ c.nom }}</td>
               <td>{{ c.prenom }}</td>
               <td>{{ c.email }}</td>
-              <td class="text-end">
+             <!--  <td>{{ c.Session?.id }}</td>
+              <td>{{ c.Session?.dateDebut }}</td>
+              <td>{{ c.Session?.dateFin }}</td>
+              <td>{{ c.Session?.formation?.titre || '—' }}</td> -->
+
+
+             
+             <!-- <td class="text-end">
                 <button class="btn btn-sm btn-outline-primary me-1" (click)="openModal('edit', c)">
                   <i class="bi bi-pencil"></i>
                 </button>
                 <button class="btn btn-sm btn-outline-danger" (click)="remove(c.id!)">
                   <i class="bi bi-trash"></i>
                 </button>
-              </td>
+              </td>-->
             </tr>
-            <tr *ngIf="candidats.length === 0">
+            <tr *ngIf="(candidat$|async)?.length === 0">
               <td colspan="5" class="text-center text-muted py-4">
                 <i class="bi bi-emoji-frown"></i> Aucun candidat
               </td>
@@ -39,7 +50,7 @@
           </tbody>
         </table>
       </div>
-       <!-- Modal (simple) -->
+       <!-- Modal (simple) 
       <div *ngIf="modalVisible" class="modal d-block" tabindex="-1">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -74,5 +85,5 @@
           </div>
         </div>
       </div>
-      <div *ngIf="modalVisible" class="modal-backdrop fade show"></div>
+      <div *ngIf="modalVisible" class="modal-backdrop fade show"></div>-->
     </div>

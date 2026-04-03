@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing-module';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +9,8 @@ import { CandidatsListComponent } from './components/candidats/candidats-list/ca
 import { FormateursList } from './components/formateurs/formateurs-list/formateurs-list';
 import { FormationsList } from './components/formations/formations-list/formations-list';
 import { SessionsList } from './components/sessions/sessions-list/sessions-list';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -18,12 +20,20 @@ import { SessionsList } from './components/sessions/sessions-list/sessions-list'
     CandidatsListComponent,
     FormateursList,
     FormationsList,
-    SessionsList
+    SessionsList,
+    
   ],
   imports: [
     CommonModule,// pour ngif,ngfor....
     AdminRoutingModule, 
-    FormsModule //pour ngModel
+    FormsModule, //pour ngModel
+    HttpClientModule,
+    AsyncPipe
+   
+    
+  ],
+  providers:[
+    
   ]
 })
 export class AdminModule { }

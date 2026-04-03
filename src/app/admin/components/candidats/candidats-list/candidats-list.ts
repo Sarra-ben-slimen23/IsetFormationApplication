@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Candidat } from '../../../../public/interfaces/candidat';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../../data-service';
+import { ApiService } from '../../../../core/services/api-service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-candidats-list',
@@ -10,21 +12,23 @@ import { DataService } from '../../../data-service';
   templateUrl: './candidats-list.html', 
 })
 export class CandidatsListComponent implements OnInit {
-  candidats: Candidat[] = [];
-  modalVisible = false;
+  //candidats: Candidat[] = [];
+  candidat$=new BehaviorSubject<Candidat[]>([]);
+  loading=true;
+ /* modalVisible = false;
   modalMode: 'add' | 'edit' = 'add';
-  modalModel: Candidat = { id: 0, nom: '', prenom: '', email: '' };
+  modalModel: Candidat = { id: 0, nom: '', prenom: '', email: '' };*/
 
-  constructor(public service :DataService) {}
+  constructor(public service :ApiService) {}
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.candidats = this.service.getCandidats();
+     this.service.getCandidats().subscribe(data => this.candidat$.next(data));
   }
-   openModal(mode: 'add' | 'edit', candidat?: Candidat) {
+  /* openModal(mode: 'add' | 'edit', candidat?: Candidat) {
     this.modalMode = mode;
     this.modalModel = candidat ? { ...candidat } : { id: 0, nom: '', prenom: '', email: '' };
     this.modalVisible = true;
@@ -43,7 +47,7 @@ export class CandidatsListComponent implements OnInit {
       this.service.deleteCandidat(id);
       this.load();
     }
-  }
+  }*/
 
  
 

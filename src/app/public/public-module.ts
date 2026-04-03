@@ -7,6 +7,8 @@ import { Formations } from './pages/formations/formations';
 import { FormsModule } from '@angular/forms';
 import { Inscription } from './pages/formations/formation-detail/inscription/inscription';
 import { FormationDetail } from './pages/formations/formation-detail/formation-detail';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { FormationDetail } from './pages/formations/formation-detail/formation-d
     CommonModule,
     PublicRoutingModule,
     FormsModule,
+    HttpClientModule,
+    
   ]
 })
 export class PublicModule { }

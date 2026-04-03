@@ -1,15 +1,21 @@
-<div id="acceuil" class="min-vh-100 d-flex flex-column">
-  <!-- En-tête centré -->
-  <div class="text-center py-5 px-3 bg-light">
-    <h1 class="display-5 fw-bold text-primary mb-3">
-      Bienvenue dans la plateforme des sessions de formation d’ISET Rades
+
+
+<div id="acceuil" class="min-vh-100 d-flex flex-column ">
+  
+  <div class="text-center max-w-lg w-100">
+    <h1 class="main-title">
+      Plateforme de gestion des sessions de formation
     </h1>
+    <h2 class="sub-title">
+      Institut Supérieur des Études Technologiques de Radès
+    </h2>
     <p class="lead text-muted mb-0">
       Découvrez et inscrivez-vous aux formations professionnelles encadrées par nos experts.
     </p>
   </div>
 
-  <!-- Menu de navigation simplifié -->
+  <!-- Menu de navigation simplifié mb-0 
+   Découvrez et inscrivez-vous aux formations professionnelles encadrées par nos experts-->
   <div class="container mt-4 mb-5">
     <ul class="nav nav-pills justify-content-center flex-wrap gap-2">
       <li class="nav-item">
@@ -26,10 +32,22 @@
         <a 
           routerLink="/public/formations"
           class="nav-link px-4 py-2 rounded-pill"
+          
         >
-          <i class="bi bi-search me-2"></i>Chercher une formation
+          <i class="bi bi-search me-2 " ></i>Chercher une formation
         </a>
       </li>
+      <!-- mes inscriptions -->
+      <li class="nav-item">
+        <a 
+          routerLink="/public/mes-inscriptions"
+          class="nav-link px-4 py-2 rounded-pill"
+          
+        >
+          <i class="bi bi-search me-2 " ></i>Mes inscriptions
+        </a>
+      </li>
+      
     </ul>
   </div>
 
@@ -37,4 +55,3 @@
   <div class="flex-grow-1">
     <router-outlet></router-outlet>
   </div>
-</div>
